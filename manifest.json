@@ -2,17 +2,17 @@
     "name": "account-share",
     "version": "1.0",
     "description": "Build an Extension!",
+    "manifest_version": 3,
+    "options_page": "options.html",
     "background": {
-      "scripts": ["scripts/background.js"],
-      "persistent": false
+      "service_worker": "background.js"
     },
     "content_scripts": [{
-      "js": ["scripts/content.js"],
+      "js": ["content.js"],
       "matches": ["<all_urls>"]
     }],
-    "permissions": ["storage","activeTab","tabs"],  
-    "browser_action": {      
+    "permissions": ["storage","activeTab","tabs","scripting"],  
+    "action": {      
         "default_popup": "popup.html"  
-    },    
-    "manifest_version": 2
+    }
 }
