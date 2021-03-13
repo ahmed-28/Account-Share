@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 // setting page according to status of user login
-chrome.storage.local.get('logged_in', ({logged_in})=> {
+chrome.storage.local.get('logged_in', async ({logged_in})=> {
   if (logged_in) {
     chrome.action.setPopup({popup: 'popup.html'});
   } 
