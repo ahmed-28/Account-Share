@@ -3,16 +3,21 @@ let color = '#3aa757';
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({ color });
-  chrome.storage.sync.set({
-    "logged_in":false
-  });
-  console.log("local_storage is set");
+  // let sid;
+  // chrome.storage.sync.get('id',({id})=>{
+  //   sid = id; 
+  // });
+    chrome.storage.sync.set({
+      "id":null
+    });
+  console.log("local_storage is set to 123");
   console.log('Default background color set to %cgreen', `color: ${color}`);
 });
 
 // setting page according to status of user login
-chrome.storage.local.get('logged_in', async ({logged_in})=> {
-  if (logged_in) {
+chrome.storage.sync.get('id', ({id})=> {
+  console.log(id);
+  if (id) {
     chrome.action.setPopup({popup: 'popup.html'});
   } 
   else {

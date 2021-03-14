@@ -1,41 +1,39 @@
 const express = require('express');
 const util = require( 'util' );
+const cors = require('cors');
 const mysql = require( 'mysql' );
 const {v4:uuidv4} = require('uuid');
 
 const app = express();
-const port = 3000;
-function connectDB( config ) {
-  const connection = mysql.createConnection( config );
-  return {
-    query( sql, args ) {
-      return util.promisify( connection.query )
-        .call( connection, sql, args );
-    },
-    close() {
-      return util.promisify( connection.end ).call( connection );
-    }
-  };
-}
 
-const db = connectDB({
+app.use(cors());
+app.use(express.json());
+
+const port = 3000;  
+
+const db = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
     password : 'root',
     database : 'accountshare'
 });
 
+const query = util.promisify(db.query).bind(db);
+
 
 app.get('/', async (req, res) => {
-    const test_con = await db.query("show tables");
-    console.log(test_con);
+    const test_con = await query("show tables");
+    console.log(test_con[0].Tables_in_accountshare);
     res.send('Hello World!');
 });
 
 app.post('/createUser', async (req,res) => {
     const id = uuidv4();
+    console.log(req.body);
     const username = req.body.username;
-    const user = await db.query("insert into users values (?,?)",[id,username]);
+    await query("insert into users values (?,?)",[id,username]);
+    const user = await query("select * from users where username = ?",[username]);
+    console.log("from server "+user);
     res.json({
         data:user,
         message: "created",
