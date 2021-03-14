@@ -24,4 +24,5 @@ chrome.storage.sync.get('id', ({id})=> {
     console.log("ui is signup");
     chrome.action.setPopup({popup: 'signup.html'});
   }
+  
 });
