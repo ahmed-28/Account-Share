@@ -41,6 +41,18 @@ app.post('/createUser', async (req,res) => {
     });
 });
 
+app.get('/getUser' ,async (req,res) => {
+    const id = req.query.id;
+    //console.log(req.query);
+    console.log(id);
+    const user = await query("select * from users where id = ?",[id]);
+    res.json({
+        username:user[0].username,
+        message:"success",
+        status:200
+    });
+});
+
 app.listen(port,()=>{
     console.log(`server started at http://localhost:${port}`);
 })
