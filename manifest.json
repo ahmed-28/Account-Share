@@ -12,7 +12,6 @@
       "matches": ["<all_urls>"]
     }],
     "permissions": ["storage","activeTab","tabs","scripting","cookies"],  
-    "action": {      
-        "default_popup": "popup.html"  
+    "action": {        
     }
 }
