@@ -13,12 +13,6 @@ chrome.runtime.onInstalled.addListener(() => {
 // setting page according to status of user login
 
 
-
-function reddenPage() {
-  console.log("redden");
-  document.body.style.backgroundColor = 'red';
-}
-
 chrome.action.onClicked.addListener((tab) => {
   console.log("in listener on click");
   chrome.storage.sync.get('id', ({id})=> {
@@ -31,10 +25,7 @@ chrome.action.onClicked.addListener((tab) => {
     chrome.action.setPopup({popup: 'signup.html'});
   }
   });
-  // chrome.scripting.executeScript({
-  //   target: { tabId: tab.id },
-  //   function: reddenPage
-  // });
+
 });
 
 
