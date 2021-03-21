@@ -1,6 +1,11 @@
 let submitButton = document.getElementById("signup-button");
 let checkdiv = document.getElementById("checkdiv");
 
+chrome.storage.local.get("id",({id})=>{
+    if(id!=null)
+        window.location.href="./popup.html";
+});
+
 submitButton.addEventListener("click",async ()=>{
     let username = document.getElementById("username").value;
     console.log(username);
@@ -29,7 +34,7 @@ submitButton.addEventListener("click",async ()=>{
 });
 
 function setStorage(response){
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
         "id":response.data[0].id
     });
 }

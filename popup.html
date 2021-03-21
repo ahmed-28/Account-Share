@@ -15,11 +15,27 @@
           box-shadow: 0 0 0 2px white,
                       0 0 0 4px black;
         }
+
+        #share-button{
+          display: block;
+          margin: 0 auto;
+          width: auto;
+        }
       </style>
   </head>
-  <body>
+  <body >
+    <div style="width: 250px;height: 450px; background-color: gray; padding: 2px;">
     <button id="changeColor"></button>
     <h1 id="welcome"></h1>
+    <h3>Share to : <input type="text" id="to_user"></input></h3>
+    <h1>Recents</h1>
+    <ul>
+      <li>user 1</li>
+      <li>user 2</li>
+      <li>user 3</li>
+    </ul>
+    <button id="share-button">Share Now -></button>
+    </div>
     <script src="popup.js"></script>
   </body>
 </html>

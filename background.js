@@ -2,8 +2,8 @@ console.log("this is from bg");
 let color = '#3aa757';
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set({ color });
-    chrome.storage.sync.set({
+  chrome.storage.local.set({ color });
+    chrome.storage.local.set({
       "id":null
     });
   console.log("local_storage is set to 123");
@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.action.onClicked.addListener((tab) => {
   console.log("in listener on click");
-  chrome.storage.sync.get('id', ({id})=> {
+  chrome.storage.local.get('id', ({id})=> {
   console.log(id);
   if (id) {
     chrome.action.setPopup({popup: 'popup.html'});

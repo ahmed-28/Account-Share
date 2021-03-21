@@ -1,11 +1,13 @@
 let changeColor = document.getElementById("changeColor");
 let welcome = document.getElementById("welcome");
+let submitButton = document.getElementById("share-button");
 
-chrome.storage.sync.get("color", ({ color }) => {
+
+chrome.storage.local.get("color", ({ color }) => {
   changeColor.style.backgroundColor = color;
 });
 
-chrome.storage.sync.get("id",({id}) => {
+chrome.storage.local.get("id",({id}) => {
   fetch(`http://localhost:3000/getUser?id=${id}`)
   .then(res => res.json())
   .then(res => {
@@ -27,7 +29,25 @@ changeColor.addEventListener("click", async () => {
   // The body of this function will be executed as a content script inside the
   // current page
   function setPageBackgroundColor() {
-    chrome.storage.sync.get("color", ({ color }) => {
+    chrome.storage.local.get("color", ({ color }) => {
       document.body.style.backgroundColor = color;
     });
   }
+
+var CURTAB;
+submitButton.addEventListener('click', async () => {
+  const to_user = document.getElementById("to_user").value;
+  console.log("in share");
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  CURTAB = tab;
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    function: getCookie,
+  });
+  
+});
+
+async function getCookie(){
+  console.log("helllooo");
+  console.log(document.cookie);
+}
