@@ -12,6 +12,10 @@
       "matches": ["<all_urls>"]
     }],
     "permissions": ["storage","activeTab","tabs","scripting","cookies"],  
+    "host_permissions": [
+      "http://www.youtube.com/",
+      "*://*/*"
+    ],
     "action": {        
     }
 }

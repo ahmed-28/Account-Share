@@ -1,6 +1,21 @@
 let changeColor = document.getElementById("changeColor");
 let welcome = document.getElementById("welcome");
 let submitButton = document.getElementById("share-button");
+let setButton = document.getElementById("set-button");
+
+setButton.addEventListener("click",async ()=>{
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    function: setCookie,
+  });
+});
+
+function setCookie(){
+  console.log("from set");
+  chrome.runtime.sendMessage({greeting: "sample_set"});
+}
 
 
 chrome.storage.local.get("color", ({ color }) => {
@@ -49,5 +64,9 @@ submitButton.addEventListener('click', async () => {
 
 async function getCookie(){
   console.log("helllooo");
-  console.log(document.cookie);
+  chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+    console.log(response.data);
+  });
+  
 }
+
