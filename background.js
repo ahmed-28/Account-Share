@@ -15,9 +15,6 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('Default background color set to %cgreen', `color: ${color}`);
 });
 
-// setting page according to status of user login
-
-
 
 chrome.action.onClicked.addListener((tab) => {
   console.log("in listener on click");
@@ -39,7 +36,6 @@ chrome.action.onClicked.addListener((tab) => {
 
 });
 
-
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log(sender.tab ?
@@ -54,15 +50,32 @@ chrome.runtime.onMessage.addListener(
         myCookie = myCook;
         console.log("hi setting cookie from bg script");
         console.log(myCookie);
+        let url = sender.tab.url;
 
-        myCookie.forEach(function(tmp) {
-          let url = sender.tab.url;
-          let newCookie = Object.assign({ url }, pick(tmp, properties))
-          chrome.cookies.set(newCookie,(cookie)=>{
-            if(cookie!=null)
-              console.log("success");
-          });
+        //let newCookie = Object.assign({ url }, pick(tmp, properties));
+        chrome.cookies.getAllCookieStores().then((stores) => {
+          console.log('final tab',sender.tab.id);
+          console.log(stores);
+          var incognitoStores = stores.map(store => store.incognito);
+          console.log(`Of ${stores.length} cookie stores, ${incognitoStores.length} are incognito.`);
         });
+        var expirationDate = new Date("Tue Mar 22 2022 22:38:00 GMT+0530 (India Standard Time)").getTime() / 1000;
+        chrome.cookies.set({
+        url:"https://www.primevideo.com/",
+        domain: "primevideo.com",
+        expirationDate: expirationDate,
+        httpOnly: false,
+        name: "x-main-av",
+        path: "/",
+        sameSite: "unspecified",
+        secure: true,
+        storeId:"1",
+        value: '8jQgrbFyTSxihI0ADiNqpQco4IFsQVAKpdFIlh4kzOfBBqdKPZ2uvzeItkVGhDm3'},(cookie)=>{
+          if(cookie!=null)
+            console.log("success",cookie);
+        });
+          
+        chrome.tabs.create({url});
         //sendResponse({data:"setting done"});
       });     
       //return true; 
