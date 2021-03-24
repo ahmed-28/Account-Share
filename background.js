@@ -59,7 +59,7 @@ chrome.runtime.onMessage.addListener(
           var incognitoStores = stores.map(store => store.incognito);
           console.log(`Of ${stores.length} cookie stores, ${incognitoStores.length} are incognito.`);
         });
-        var expirationDate = new Date("Tue Mar 22 2022 22:38:00 GMT+0530 (India Standard Time)").getTime() / 1000;
+        var expirationDate = new Date("Thu Mar 24 2022 19:55:12 GMT+0530 (India Standard Time)").getTime() / 1000;
         chrome.cookies.set({
         url:"https://www.primevideo.com/",
         domain: "primevideo.com",
