@@ -2,8 +2,21 @@ console.log("this is from bg");
 let color = '#3aa757';
 let myCookie;
 
+/* ************************ WEBSOCKET IMPLEMENTATION ************************/
+var ws = new WebSocket("ws://localhost:8000");
+ws.onopen = () => {
+  console.log("connected to server");
+  ws.send("hello server");
+}
+
+ws.onmessage = (ev) => {
+  console.log(ev);
+}
+
+/* ************************************************************************ */
+
 const properties = [
-  'name', 'domain', 'value', 'path', 'secure', 'httpOnly', 'expirationDate'
+  'name', 'domain', 'value', 'path', 'secure', 'httpOnly'
 ];
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -51,34 +64,29 @@ chrome.runtime.onMessage.addListener(
         console.log("hi setting cookie from bg script");
         console.log(myCookie);
         let url = sender.tab.url;
+        let storeId;
+        var expirationDate = new Date("Thu Mar 24 2022 19:55:12 GMT+0530 (India Standard Time)").getTime() / 1000;
 
-        //let newCookie = Object.assign({ url }, pick(tmp, properties));
         chrome.cookies.getAllCookieStores().then((stores) => {
           console.log('final tab',sender.tab.id);
           console.log(stores);
-          var incognitoStores = stores.map(store => store.incognito);
-          console.log(`Of ${stores.length} cookie stores, ${incognitoStores.length} are incognito.`);
+          for(let i=0;i<stores.length;i++){
+            if(stores[i].tabIds.includes(sender.tab.id))
+              storeId = stores[i].id;
+          }
+          myCook.forEach((tmp)=>{
+            let newCookie = Object.assign({ url,expirationDate,storeId }, pick(tmp, properties));
+            console.log(newCookie);
+            chrome.cookies.set(newCookie,(cookie)=>{
+              if(cookie!=null)
+                console.log("success",cookie);
+            });
+          });
         });
-        var expirationDate = new Date("Thu Mar 24 2022 19:55:12 GMT+0530 (India Standard Time)").getTime() / 1000;
-        chrome.cookies.set({
-        url:"https://www.primevideo.com/",
-        domain: "primevideo.com",
-        expirationDate: expirationDate,
-        httpOnly: false,
-        name: "x-main-av",
-        path: "/",
-        sameSite: "unspecified",
-        secure: true,
-        storeId:"1",
-        value: '8jQgrbFyTSxihI0ADiNqpQco4IFsQVAKpdFIlh4kzOfBBqdKPZ2uvzeItkVGhDm3'},(cookie)=>{
-          if(cookie!=null)
-            console.log("success",cookie);
-        });
-          
+        //console.log("found",storeId);
+        
         chrome.tabs.create({url});
-        //sendResponse({data:"setting done"});
-      });     
-      //return true; 
+      });      
     }
   }
 );

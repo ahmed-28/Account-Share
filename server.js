@@ -2,6 +2,7 @@ const express = require('express');
 const util = require( 'util' );
 const cors = require('cors');
 const mysql = require( 'mysql' );
+const webSocketServer = require("ws").Server;
 const {v4:uuidv4} = require('uuid');
 
 const app = express();
@@ -55,4 +56,11 @@ app.get('/getUser' ,async (req,res) => {
 
 app.listen(port,()=>{
     console.log(`server started at http://localhost:${port}`);
+});
+
+wss = new webSocketServer({port:8000});
+wss.on('connection',(ws)=>{
+    ws.on('message',(message) => {
+        console.log(message);
+    });
 });

@@ -24,7 +24,7 @@
       </style>
   </head>
   <body >
-    <div style="width: 250px;height: 450px; background-color: gray; padding: 2px;">
+    <div style="width: 250px;height: 450px; background-color: gray; padding: 2px;" id="page1">
     <button id="changeColor"></button>
     <h1 id="welcome"></h1>
     <h3>Share to : <input type="text" id="to_user"></input></h3>
@@ -37,6 +37,12 @@
     <button id="share-button">Share Now -></button>
     <button id="set-button">Set Now -></button>
     </div>
+
+    <div style="width: 250px;height: 450px; background-color: gray; padding: 2px; display: none;" id="page2">
+      <h1 style="text-align: center;">Share Now</h1>
+      <h3 id="sharing-to"></h3>
+    </div>
+
     <script src="popup.js"></script>
   </body>
 </html>

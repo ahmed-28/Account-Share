@@ -59,6 +59,10 @@ submitButton.addEventListener('click', async () => {
     target: { tabId: tab.id },
     function: getCookie,
   });
+
+  document.getElementById("page1").style.display="none";
+  document.getElementById("page2").style.display="block";
+  document.getElementById("sharing-to").innerHTML = `sharing to ${to_user}`;
   
 });
 
