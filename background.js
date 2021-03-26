@@ -13,6 +13,11 @@ ws.onmessage = (ev) => {
   console.log(ev);
 }
 
+ws.onclose = () => {
+  console.log("connection ended");
+}
+
+
 /* ************************************************************************ */
 
 const properties = [
