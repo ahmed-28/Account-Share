@@ -6,7 +6,10 @@ let myCookie;
 var ws = new WebSocket("ws://localhost:8000");
 ws.onopen = () => {
   console.log("connected to server");
-  ws.send("hello server");
+  ws.send(JSON.stringify({
+    id:"hello",
+    data : "hello server"
+  }));
 }
 
 ws.onmessage = (ev) => {

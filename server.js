@@ -3,9 +3,17 @@ const util = require( 'util' );
 const cors = require('cors');
 const mysql = require( 'mysql' );
 const webSocketServer = require("ws").Server;
+const WebSocket  = require('ws');
 const {v4:uuidv4} = require('uuid');
 
 const app = express();
+
+let socket_connections = {};
+
+function to(user,data){
+    if(socket_connections[user] && socket_connections[user].readyState === WebSocket.OPEN)
+        socket_connections[user].send(data);
+}
 
 app.use(cors());
 app.use(express.json());
@@ -61,6 +69,7 @@ app.listen(port,()=>{
 wss = new webSocketServer({port:8000});
 wss.on('connection',(ws)=>{
     ws.on('message',(message) => {
-        console.log(message);
+        message = JSON.parse(message);
+        console.log("from client",message);
     });
 });
