@@ -3,6 +3,8 @@ let welcome = document.getElementById("welcome");
 let submitButton = document.getElementById("share-button");
 let setButton = document.getElementById("set-button");
 
+
+
 setButton.addEventListener("click",async ()=>{
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   chrome.scripting.executeScript({
@@ -29,7 +31,10 @@ chrome.storage.local.get("id",({id}) => {
     welcome.innerHTML = username;
   })
   .catch(err => console.log(err));
-})
+  chrome.runtime.sendMessage({name:"set_user_socket",user_id:id},function(response){
+    console.log("socket set now");
+  });
+});
 
 changeColor.addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

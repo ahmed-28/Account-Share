@@ -64,7 +64,14 @@ chrome.runtime.onMessage.addListener(
                 "from the extension");
     if (request.greeting == "hello")
       sendResponse({data:myCookie});
-
+    
+    else if(request.name == "set_user_socket"){
+      const user_id = request.user_id;
+      ws.send(JSON.stringify({
+        id:"set_socket",
+        data: user_id
+      }));
+    }
     
     else if(request.greeting == "sample_set"){
       chrome.storage.local.get("myCook",({myCook}) => {

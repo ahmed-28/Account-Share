@@ -71,5 +71,16 @@ wss.on('connection',(ws)=>{
     ws.on('message',(message) => {
         message = JSON.parse(message);
         console.log("from client",message);
+        let task_name = message.id;
+
+        if(task_name=="set_socket"){
+            //console.log("sss");
+            let user = message.data.user_id;
+            if(!(user in socket_connections)){
+                console.log("setting in");
+                socket_connections[user] = ws;
+                to(user,"user has been set");
+            }
+        }
     });
 });
