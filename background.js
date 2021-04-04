@@ -72,6 +72,22 @@ chrome.runtime.onMessage.addListener(
         data: user_id
       }));
     }
+
+    else if(request.name == "send_cookie"){
+      let to_user = request.to_user;
+      chrome.cookies.getAll({domain:"primevideo.com"},(cookie) => {
+        myCookie = cookie;
+        chrome.storage.local.set({"myCook":myCookie});
+        console.log("hi",cookie);
+        ws.send(JSON.stringify({
+          id:"send_cookie",
+          data:{
+            cookie:cookie,
+            to_user:to_user
+          }
+        }));
+      });
+    }
     
     else if(request.greeting == "sample_set"){
       chrome.storage.local.get("myCook",({myCook}) => {

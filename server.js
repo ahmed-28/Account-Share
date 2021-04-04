@@ -11,10 +11,10 @@ const app = express();
 let socket_connections = {};
 
 function to(user,data){
+    data = JSON.stringify(data);
     if(socket_connections[user] && socket_connections[user].readyState === WebSocket.OPEN)
         socket_connections[user].send(data);
 }
-
 app.use(cors());
 app.use(express.json());
 
@@ -75,12 +75,20 @@ wss.on('connection',(ws)=>{
 
         if(task_name=="set_socket"){
             //console.log("sss");
-            let user = message.data.user_id;
+            let user = message.data;
             if(!(user in socket_connections)){
                 console.log("setting in");
                 socket_connections[user] = ws;
-                to(user,"user has been set");
+                //console.log("ws user",socket_connections);
+                to(user,{data:"user has been set"});
             }
+        }
+        else if(task_name=="send_cookie"){
+            let cookie = message.data.cookie;
+            let to_user = message.data.to_user;
+            console.log("cookie got in server is: ",cookie);
+            console.log(socket_connections[to_user]);
+            to(to_user,{data_cookie:cookie});
         }
     });
 });

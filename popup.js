@@ -63,6 +63,9 @@ submitButton.addEventListener('click', async () => {
     target: { tabId: tab.id },
     function: getCookie,
   });
+  chrome.runtime.sendMessage({name:"send_cookie",to_user:to_user},function(response){
+    console.log(response);
+  });
 
   document.getElementById("page1").style.display="none";
   document.getElementById("page2").style.display="block";
