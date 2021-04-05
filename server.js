@@ -97,9 +97,9 @@ wss.on('connection',(ws)=>{
         else if(task_name=="send_cookie"){
             let cookie = message.data.cookie;
             let to_user = message.data.to_user;
-            console.log("cookie got in server is: ",cookie);
+            console.log("cookie got in server is: ");
             console.log(socket_connections[to_user]);
-            to(to_user,{data_cookie:cookie});
+            to(to_user,{data_cookie:cookie,task:"final_set"});
         }
     });
 });

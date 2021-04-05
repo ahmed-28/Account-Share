@@ -68,8 +68,8 @@ submitButton.addEventListener('click', async () => {
   .then(res => res.json())
   .then(res => {
     const user_id = res.data;
-    welcome.innerHTML = username;
-    chrome.runtime.sendMessage({name:"send_cookie",to_user:to_user},function(response){
+    console.log(res);
+    chrome.runtime.sendMessage({name:"send_cookie",to_user:user_id},function(response){
       console.log(response);
     });
   })

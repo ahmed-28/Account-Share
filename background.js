@@ -12,10 +12,38 @@ ws.onopen = () => {
   }));
 }
 
-ws.onmessage = (ev) => {
+ws.onmessage = async (ev) => {
   console.log(ev);
+  const data = JSON.parse(String(ev.data));
+  if(data.task=="final_set"){
+    console.log("setting finally cookie");
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    console.log(tab.url,tab.id);
+    let url = tab.url;
+    let storeId;
+    var expirationDate = new Date("Wed Apr 06 2022 19:55:12 GMT+0530 (India Standard Time)").getTime() / 1000;
+    chrome.cookies.getAllCookieStores().then((stores) => {
+      console.log('final tab',tab.id);
+      console.log(stores);
+      for(let i=0;i<stores.length;i++){
+        if(stores[i].tabIds.includes(tab.id))
+          storeId = stores[i].id;
+      }
+      let myCook = data.data_cookie;
+      myCook.forEach((tmp)=>{
+        let newCookie = Object.assign({ url,expirationDate,storeId }, pick(tmp, properties));
+        console.log(newCookie);
+        chrome.cookies.set(newCookie,(cookie)=>{
+          if(cookie!=null)
+            console.log("success",cookie);
+        });
+      });
+    });
+    chrome.tabs.create({url});
+  }
 }
 
+  
 ws.onclose = () => {
   console.log("connection ended");
 }
@@ -78,7 +106,7 @@ chrome.runtime.onMessage.addListener(
       chrome.cookies.getAll({domain:"primevideo.com"},(cookie) => {
         myCookie = cookie;
         chrome.storage.local.set({"myCook":myCookie});
-        console.log("hi",cookie);
+        console.log("sendjhi",cookie);
         ws.send(JSON.stringify({
           id:"send_cookie",
           data:{
