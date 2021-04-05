@@ -62,6 +62,17 @@ app.get('/getUser' ,async (req,res) => {
     });
 });
 
+app.get('/getUserId', async (req,res) => {
+    const username = req.query.username;
+    console.log(username);
+    const user = await query("select * from users where username = ?",[username]);
+    res.json({
+        data : user[0].id,
+        message:"success",
+        status:200
+    });
+});
+
 app.listen(port,()=>{
     console.log(`server started at http://localhost:${port}`);
 });

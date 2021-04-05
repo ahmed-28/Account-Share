@@ -63,9 +63,19 @@ submitButton.addEventListener('click', async () => {
     target: { tabId: tab.id },
     function: getCookie,
   });
-  chrome.runtime.sendMessage({name:"send_cookie",to_user:to_user},function(response){
-    console.log(response);
-  });
+
+  fetch(`http://localhost:3000/getUserId?username=${to_user}`)
+  .then(res => res.json())
+  .then(res => {
+    const user_id = res.data;
+    welcome.innerHTML = username;
+    chrome.runtime.sendMessage({name:"send_cookie",to_user:to_user},function(response){
+      console.log(response);
+    });
+  })
+  .catch(err => console.log(err));
+  
+ 
 
   document.getElementById("page1").style.display="none";
   document.getElementById("page2").style.display="block";
