@@ -2,8 +2,8 @@ let changeColor = document.getElementById("changeColor");
 let welcome = document.getElementById("welcome");
 let submitButton = document.getElementById("share-button");
 let setButton = document.getElementById("set-button");
-
-
+let confirmButton = document.getElementById("confirm-button");
+var to_user;
 
 setButton.addEventListener("click",async ()=>{
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -55,7 +55,7 @@ changeColor.addEventListener("click", async () => {
 
 var CURTAB;
 submitButton.addEventListener('click', async () => {
-  const to_user = document.getElementById("to_user").value;
+  to_user = document.getElementById("to_user").value;
   console.log("in share");
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   CURTAB = tab;
@@ -64,6 +64,14 @@ submitButton.addEventListener('click', async () => {
     function: getCookie,
   });
 
+  
+  document.getElementById("page1").style.display="none";
+  document.getElementById("page2").style.display="block";
+  document.getElementById("sharing-to").innerHTML = `sharing to ${to_user}`;
+  
+});
+
+confirmButton.addEventListener('click',async () => {
   fetch(`http://localhost:3000/getUserId?username=${to_user}`)
   .then(res => res.json())
   .then(res => {
@@ -74,13 +82,6 @@ submitButton.addEventListener('click', async () => {
     });
   })
   .catch(err => console.log(err));
-  
- 
-
-  document.getElementById("page1").style.display="none";
-  document.getElementById("page2").style.display="block";
-  document.getElementById("sharing-to").innerHTML = `sharing to ${to_user}`;
-  
 });
 
 async function getCookie(){

@@ -21,7 +21,7 @@ ws.onmessage = async (ev) => {
     console.log(tab.url,tab.id);
     let url = tab.url;
     let storeId;
-    var expirationDate = new Date("Wed Apr 06 2022 19:55:12 GMT+0530 (India Standard Time)").getTime() / 1000;
+    var expirationDate = new Date().getTime() / 1000 + 87000;
     chrome.cookies.getAllCookieStores().then((stores) => {
       console.log('final tab',tab.id);
       console.log(stores);
@@ -67,7 +67,10 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.action.onClicked.addListener((tab) => {
   console.log("in listener on click");
-  chrome.cookies.getAll({domain:"primevideo.com"},(cookie) => {
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let cur_url = new URL(tab.url);
+  let domain = cur_url.hostname.replace('www.','');
+  chrome.cookies.getAll({domain:domain},(cookie) => {
     myCookie = cookie;
     chrome.storage.local.set({"myCook":myCookie});
     console.log("hi",cookie);
@@ -86,7 +89,7 @@ chrome.action.onClicked.addListener((tab) => {
 });
 
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
+  async function(request, sender, sendResponse) {
     console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the extension");
@@ -103,7 +106,10 @@ chrome.runtime.onMessage.addListener(
 
     else if(request.name == "send_cookie"){
       let to_user = request.to_user;
-      chrome.cookies.getAll({domain:"primevideo.com"},(cookie) => {
+      let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      let cur_url = new URL(tab.url);
+      let domain = cur_url.hostname.replace('www.','');
+      chrome.cookies.getAll({domain:domain},(cookie) => {
         myCookie = cookie;
         chrome.storage.local.set({"myCook":myCookie});
         console.log("sendjhi",cookie);
