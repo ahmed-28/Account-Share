@@ -5,14 +5,6 @@ let setButton = document.getElementById("set-button");
 let confirmButton = document.getElementById("confirm-button");
 var to_user;
 
-setButton.addEventListener("click",async ()=>{
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: setCookie,
-  });
-});
-
 function setCookie(){
   console.log("from set");
   chrome.runtime.sendMessage({greeting: "sample_set"});
@@ -28,7 +20,8 @@ chrome.storage.local.get("id",({id}) => {
   .then(res => res.json())
   .then(res => {
     const username = res.username;
-    welcome.innerHTML = username;
+    console.log(username);
+    welcome.innerHTML = `Welcome ${username} !`;
   })
   .catch(err => console.log(err));
   chrome.runtime.sendMessage({name:"set_user_socket",user_id:id},function(response){
@@ -55,6 +48,7 @@ changeColor.addEventListener("click", async () => {
 
 var CURTAB;
 submitButton.addEventListener('click', async () => {
+  console.log("heyy");
   to_user = document.getElementById("to_user").value;
   console.log("in share");
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -64,6 +58,7 @@ submitButton.addEventListener('click', async () => {
     function: getCookie,
   });
 
+  console.log("in next page");
   
   document.getElementById("page1").style.display="none";
   document.getElementById("page2").style.display="block";

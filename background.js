@@ -67,7 +67,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.action.onClicked.addListener((tab) => {
   console.log("in listener on click");
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  //let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   let cur_url = new URL(tab.url);
   let domain = cur_url.hostname.replace('www.','');
   chrome.cookies.getAll({domain:domain},(cookie) => {

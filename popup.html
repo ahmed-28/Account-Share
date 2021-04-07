@@ -3,40 +3,33 @@
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <style>
-        button {
-          height: 30px;
-          width: 30px;
-          outline: none;
-          margin: 10px;
-          border: none;
-          border-radius: 2px;
-        }
-
-        button.current {
-          box-shadow: 0 0 0 2px white,
-                      0 0 0 4px black;
-        }
-
-        #share-button{
-          display: block;
-          margin: 0 auto;
-          width: auto;
-        }
+  
       </style>
   </head>
   <body >
-    <div style="width: 250px;height: 450px; background-color: gray; padding: 2px;" id="page1">
-    <button id="changeColor"></button>
-    <h1 id="welcome"></h1>
-    <h3>Share to : <input type="text" id="to_user"></input></h3>
-    <h1>Recents</h1>
+    <div style="width: 250px;height: 450px; background-color:#b5838d ; padding: 2px;" id="page1" >
+    <div class="container-fluid">
+    <h4 id="welcome" style="text-align: center;"></h4>
+    <div class="mb-3 row">
+      <label for="to_user" class="col-sm-2 col-form-label">Share To</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="to_user">
+      </div>
+    </div>
+    <h4>Recents</h4>
     <ul>
-      <li>user 1</li>
-      <li>user 2</li>
-      <li>user 3</li>
+      <li><strong>John</strong></li>
+      <li><strong>Rob</strong></li>
+      <li><strong>User</strong></li>
     </ul>
-    <button id="share-button">Share Now -></button>
-    <button id="set-button">Set Now -></button>
+
+    <div class="text-center">
+      <button id="share-button" type="button" class="btn btn-success">Share Now</button>
+    </div>
+
+    
+    <!-- <button id="set-button">Set Now -></button> -->
+    </div>
     </div>
 
     <div style="width: 250px;height: 450px; background-color: gray; padding: 2px; display: none;" id="page2">
@@ -53,8 +46,6 @@
     </div>
 
     <script src="popup.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
   </body>
 </html>
