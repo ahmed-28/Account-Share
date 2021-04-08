@@ -32,17 +32,26 @@
     </div>
     </div>
 
-    <div style="width: 250px;height: 450px; background-color: gray; padding: 2px; display: none;" id="page2">
-      <h1 style="text-align: center;">Share Now</h1>
-      <h3 id="sharing-to"></h3>
-
-      <label>Set time limit: </label>
-      <select name="times" id="times">
-        <option value="4 h">4 hours</option>
-        <option value="1 d">1 day</option>
-        <option value="1 w">1 week</option>
-      </select>
-      <button id="confirm-button">confirm</button>
+    <div style="width: 250px;height: 450px; background-color: #b5838d; padding: 2px; display: none;" id="page2">
+      <div class="container">
+      <h4 style="text-align: center;">Share Now</h4>
+      <h5 style="font-weight: bold;" id="sharing-to"></h5>
+      
+      <div class="mb-3 row">
+        <label for="times" class="col-sm-2 col-form-label">Set Time Limit</label>
+        <div class="col-sm">
+          <select class="form-control input-sm" name="times" id="times">
+            <option selected>Open this select menu</option>
+            <option value="4 h">4 hours</option>
+            <option value="1 d">1 day</option>
+            <option value="1 w">1 week</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-center">
+        <button id="confirm-button" type="button" class="btn btn-success">Confirm</button>
+      </div>
+    </div>
     </div>
 
     <script src="popup.js"></script>
